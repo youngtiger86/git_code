@@ -7,7 +7,7 @@
 function print_usage()
 {
 	echo "Usage:"
-	echo "    ./init.sh filename [filename2 ...]"
+	echo -e "\t./init.sh filename [filename2 ...]"
 }
 
 function create_file()
@@ -55,4 +55,5 @@ do
 	fi
 
 	create_file ${file}
-done	
+	chmod u+x ${file}
+done
