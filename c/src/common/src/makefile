@@ -1,4 +1,4 @@
-all:server client tcp_server tcp_client
+all:server client tcp_server tcp_client udp_server udp_client udp_connect_client
 
 server:server.c iolib.c
 	gcc -g server.c iolib.c -o $@
@@ -19,6 +19,14 @@ nonblock_udp_server:nonblock_udp_server.c
 	gcc -g nonblock_udp_server.c -o $@
 nonblock_udp_client:nonblock_udp_client.c
 	gcc -g nonblock_udp_client.c -o $@
+udp_connect_client:udp_connect_client.c iolib.o
+	gcc -g udp_connect_client.c iolib.o -o $@
+
+unix_sock_server:unix_sock_server.c
+	gcc -g unix_sock_server.c -o $@
+unix_sock_client:unix_sock_client.c
+	gcc -g unix_sock_client.c -o $@
 
 clean:
-	rm -rf server client tcp_server tcp_client udp_server udp_client nonblock_udp_server nonblock_udp_client *.o
+	rm -rf server client tcp_server tcp_client udp_server udp_client nonblock_udp_server nonblock_udp_client *.o udp_connect_client
+	rm -rf unix_sock_server unix_sock_client
