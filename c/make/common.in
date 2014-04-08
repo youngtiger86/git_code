@@ -1,1 +1,4 @@
 BIN_PATH=/home/tom/git_code/c/bin
+COMP_PROMPT="Compiling file"
+LINK_PROMPT="Linking"
+INC=-I$(CODE_HOME)/src/common/include

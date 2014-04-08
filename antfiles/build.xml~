@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>  
+<project name="hlj_task Buildfile" default="compile" basedir=".">  
+    <!-- 源文件路径 -->  
+    <property name="src.dir" value="src" />  
+    <property name="lib.dir" value="lib" />  
+    <property name="config.dir" value="config" />  
+    <!-- build路径 -->  
+    <property name="build.dir" value="build" />  
+    <property name="build.classes" value="${build.dir}/classes" />  
+    <property name="build.lib" value="${build.dir}/lib" />  
+    <property name="build.config" value="${build.dir}/config" />  
+    <property name="build.bin" value="${build.dir}/bin" />  
+    <!-- jar里MANIFEST.MF文件的属性 -->  
+    <property name="jar.name" value="hlj_task.jar" />  
+    <property name="jar.MainClass" value="com.boco.main.Main" />  
+    <property name="jar.buildby" value="Shen XueLiang" />  
+    <!-- 创建build文件夹 -->  
+    <target name="prepare">  
+        <mkdir dir="${build.dir}" />  
+        <mkdir dir="${build.classes}" />  
+        <mkdir dir="${build.lib}" />  
+        <mkdir dir="${build.config}" />  
+        <mkdir dir="${build.bin}" />  
+    </target>  
+      
+    <target name="clean" description="Removes all generated files.">  
+        <delete dir="${build.dir}" />  
+    </target>  
+      
+    <target name="delclass" description="Removes all classes files.">  
+        <delete dir="${build.dir}/classes" />  
+    </target>  
+  
+    <path id="classpath">  
+        <fileset dir="${lib.dir}">  
+            <include name="**/*.jar"/>  
+        </fileset>  
+    </path>  
+      
+    <target name="compile" depends="prepare" description="Compiles all source code.">  
+        <javac srcdir="${src.dir}" destdir="${build.classes}">  
+            <classpath refid="classpath" />  
+        </javac>  
+    </target>  
+      
+    <target name="copyjar">  
+        <copy todir="${build.lib}">  
+            <fileset dir="${lib.dir}">  
+                <include name="**/*.jar"/>  
+            </fileset>  
+        </copy>  
+    </target>  
+      
+    <target name="copyconf">  
+        <copy todir="${build.config}">  
+            <fileset dir="${config.dir}">  
+                <include name="*.*"/>  
+            </fileset>  
+        </copy>  
+    </target>  
+    <!-- MANIFEST.MF文件的Class-Path属性 -->  
+    <manifestclasspath property="jar.classpath"   
+        jarfile="${src.dir}/${jar.name}"><!-- 可执行jar文件的路径，jar文件可以不存在，但${src.dir}必须存在 -->  
+        <classpath>  
+            <fileset dir="${lib.dir}"><!-- 依赖jar所在路径 -->  
+                <include name="**/*.jar"/>  
+            </fileset>  
+        </classpath>  
+    </manifestclasspath>  
+      
+    <target name="jar" depends="compile,copyjar,copyconf">  
+        <jar jarfile="${build.bin}/${jar.name}"  
+             basedir="${build.classes}">  
+            <manifest>  
+                <attribute name="Built-By" value="${jar.buildby}" />  
+                <attribute name="Main-Class" value="${jar.MainClass}" />  
+                <attribute name="Class-Path" value="${jar.classpath}" />  
+            </manifest>  
+        </jar>  
+    </target>  
+    <!-- jar包制作完成后，删除classes文件夹 -->  
+    <target name="all" depends="clean,jar,delclass"  
+            description="Cleans,compiles,then builds the JAR file." />  
+</project> 

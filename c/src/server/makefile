@@ -5,12 +5,12 @@ CC=gcc
 INC+= -Iinclude
 SRC=$(wildcard src/*.c)
 OBJ=$(patsubst src/%.c,obj/%.o,$(SRC))
-TARGET=$(BIN_PATH)/client
+TARGET=$(BIN_PATH)/server
 
-all: client
+all:server 
 
-client: $(OBJ)
-	@echo "${LINK_PROMPT} client..."
+server: $(OBJ)
+	@echo "${LINK_PROMPT} server..."
 	$(CC) -o $(TARGET) $^
 
 OBJ: %.o

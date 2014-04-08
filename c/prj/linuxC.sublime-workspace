@@ -19,7 +19,7 @@
 			"file": "/home/tom/git_code/c/src/client/include/clt_common.h",
 			"settings":
 			{
-				"buffer_size": 1347,
+				"buffer_size": 1423,
 				"line_ending": "Unix"
 			}
 		},
@@ -27,8 +27,38 @@
 			"file": "/home/tom/git_code/c/src/client/src/command.c",
 			"settings":
 			{
-				"buffer_size": 1649,
+				"buffer_size": 3666,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/tom/git_code/c/src/server/src/server_ main.c",
+			"settings":
+			{
+				"buffer_size": 1344,
+				"line_ending": "Unix",
+				"name": "#include"
+			}
+		},
+		{
+			"contents": "#ifndef __SERVER_COMMON_H__\n#define __SERVER_COMMON_H__\n#include <stdio.h>\n#include <string.h>\n#include <unistd.h>\n#include <ctype.h>\n#include <sys/socket.h>\n#include <netinet/in.h>\n#include <arpa/inet.h>\n#include <stdlib.h>\n#include <fcntl.h>\n#include <sys/stat.h>\n#include <errno.h>\n#include \"comm_def.h\"\n#include \"iolib.h\"  /* Self-made I/O library. */\n\n/* Global macro definitions. */\n#define SERVER_SERVICE_PORT     8000\n\n/* Function declarations. */\nextern int server_init(struct sockaddr_in * sin, int * lfd, int sock_port);\nextern int server_do_put(int cfd, char * file);\nextern int server_do_get(int cfd, char * file);\nextern int server_do_cd(int cfd, char * path);\nextern int server_do_ls(int cfd, char * path);\n\n#endif /* __SERVER_COMMON_H__ */",
+			"file": "/home/tom/git_code/c/src/server/include/server_common.h",
+			"file_size": 755,
+			"file_write_time": 1396969756000000,
+			"settings":
+			{
+				"buffer_size": 755,
+				"line_ending": "Unix",
+				"name": "#include"
+			}
+		},
+		{
+			"file": "/home/tom/git_code/c/src/common/include/comm_def.h",
+			"settings":
+			{
+				"buffer_size": 258,
+				"line_ending": "Unix",
+				"name": "#ifndef _COMM_DEF_H__"
 			}
 		},
 		{
@@ -135,7 +165,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -143,15 +173,15 @@
 					"file": "/home/tom/git_code/c/src/client/include/clt_common.h",
 					"settings":
 					{
-						"buffer_size": 1347,
+						"buffer_size": 1423,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								942,
-								942
+								1423,
+								1423
 							]
 						],
 						"settings":
@@ -159,7 +189,7 @@
 							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -169,29 +199,114 @@
 					"file": "/home/tom/git_code/c/src/client/src/command.c",
 					"settings":
 					{
-						"buffer_size": 1649,
+						"buffer_size": 3666,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1245,
-								1245
+								1915,
+								1915
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C.tmLanguage"
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 51.0,
+						"translation.y": 1710.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
+					"file": "/home/tom/git_code/c/src/server/src/server_ main.c",
+					"settings":
+					{
+						"buffer_size": 1344,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1195,
+								1195
+							]
+						],
+						"settings":
+						{
+							"auto_name": "#include",
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 180.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/tom/git_code/c/src/server/include/server_common.h",
+					"settings":
+					{
+						"buffer_size": 755,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								356,
+								356
+							]
+						],
+						"settings":
+						{
+							"auto_name": "#include",
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/tom/git_code/c/src/common/include/comm_def.h",
+					"settings":
+					{
+						"buffer_size": 258,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								230,
+								230
+							]
+						],
+						"settings":
+						{
+							"auto_name": "#ifndef _COMM_DEF_H__",
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
 					"file": "/home/tom/git_code/c/src/client/src/clt_main.c",
 					"settings":
 					{
@@ -218,7 +333,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 6,
 					"file": "/home/tom/git_code/c/src/client/src/input.c",
 					"settings":
 					{

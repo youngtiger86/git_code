@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>  
+<project name="check gmserver Buildfile" default="telnet" basedir=".">  
+    <target name="telnet">
+		<sshexec host="127.0.0.1" username="tom" password="tom" trust="true" command="ls"/>			
+    </target> 
+</project> 

@@ -1,3 +1,6 @@
+#ifndef CLT_COMMON_H__
+#define CLT_COMMON_H__
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <regex.h>
@@ -36,3 +39,5 @@ extern int do_serv_ls(char * path, int sock_fd);
 extern int do_cd(char * path);
 extern int do_ls(char * path);
 extern int do_bye(int sock_fd);
+
+#endif /* CLT_COMMON_H__ */
