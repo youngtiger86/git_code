@@ -11,14 +11,14 @@ all:server
 
 server: $(OBJ)
 	@echo "${LINK_PROMPT} server..."
-	$(CC) -o $(TARGET) $^
+	@$(CC) -o $(TARGET) $^
 
 OBJ: %.o
 
 obj/%.o:src/%.c 
 	@mkdir -p obj
 	@echo "${COMP_PROMPT} $<..."
-	@$(CC) -c $(INC) $< -o $@
+	@$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
 clean:
 	@rm -rf $(all) $(TARGET) obj

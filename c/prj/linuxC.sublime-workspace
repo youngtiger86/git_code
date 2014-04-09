@@ -24,6 +24,31 @@
 			}
 		},
 		{
+			"file": "/home/tom/git_code/c/src/server/include/server_cmd.h",
+			"settings":
+			{
+				"buffer_size": 750,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/tom/git_code/c/src/server/src/server_cmd.c",
+			"settings":
+			{
+				"buffer_size": 1712,
+				"line_ending": "Unix",
+				"name": "#include \"server_cmd.h\""
+			}
+		},
+		{
+			"file": "/home/tom/git_code/c/src/server/src/server_main.c",
+			"settings":
+			{
+				"buffer_size": 1388,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "/home/tom/git_code/c/src/client/src/command.c",
 			"settings":
 			{
@@ -32,31 +57,10 @@
 			}
 		},
 		{
-			"file": "/home/tom/git_code/c/src/server/src/server_ main.c",
-			"settings":
-			{
-				"buffer_size": 1344,
-				"line_ending": "Unix",
-				"name": "#include"
-			}
-		},
-		{
-			"contents": "#ifndef __SERVER_COMMON_H__\n#define __SERVER_COMMON_H__\n#include <stdio.h>\n#include <string.h>\n#include <unistd.h>\n#include <ctype.h>\n#include <sys/socket.h>\n#include <netinet/in.h>\n#include <arpa/inet.h>\n#include <stdlib.h>\n#include <fcntl.h>\n#include <sys/stat.h>\n#include <errno.h>\n#include \"comm_def.h\"\n#include \"iolib.h\"  /* Self-made I/O library. */\n\n/* Global macro definitions. */\n#define SERVER_SERVICE_PORT     8000\n\n/* Function declarations. */\nextern int server_init(struct sockaddr_in * sin, int * lfd, int sock_port);\nextern int server_do_put(int cfd, char * file);\nextern int server_do_get(int cfd, char * file);\nextern int server_do_cd(int cfd, char * path);\nextern int server_do_ls(int cfd, char * path);\n\n#endif /* __SERVER_COMMON_H__ */",
-			"file": "/home/tom/git_code/c/src/server/include/server_common.h",
-			"file_size": 755,
-			"file_write_time": 1396969756000000,
-			"settings":
-			{
-				"buffer_size": 755,
-				"line_ending": "Unix",
-				"name": "#include"
-			}
-		},
-		{
 			"file": "/home/tom/git_code/c/src/common/include/comm_def.h",
 			"settings":
 			{
-				"buffer_size": 258,
+				"buffer_size": 492,
 				"line_ending": "Unix",
 				"name": "#ifndef _COMM_DEF_H__"
 			}
@@ -102,6 +106,8 @@
 	},
 	"file_history":
 	[
+		"/home/tom/git_code/c/src/server/src/server_ main.c",
+		"/home/tom/git_code/c/src/server/include/server_common.h",
 		"/home/tom/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
 		"/home/tom/git_code/c/src/common/src/unix_sock_server.c",
 		"/home/tom/git_code/c/src/client/src/client_main.c",
@@ -138,6 +144,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"cmd_info->add_info",
 			"strcmp",
 			"my_read",
 			"my_func",
@@ -154,6 +161,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"cmd_add_info",
 			"strcasecmp"
 		],
 		"reverse": false,
@@ -180,8 +188,8 @@
 						"selection":
 						[
 							[
-								1423,
-								1423
+								252,
+								252
 							]
 						],
 						"settings":
@@ -196,6 +204,87 @@
 				},
 				{
 					"buffer": 1,
+					"file": "/home/tom/git_code/c/src/server/include/server_cmd.h",
+					"settings":
+					{
+						"buffer_size": 750,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								303,
+								303
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/tom/git_code/c/src/server/src/server_cmd.c",
+					"settings":
+					{
+						"buffer_size": 1712,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								472,
+								472
+							]
+						],
+						"settings":
+						{
+							"auto_name": "#include \"server_cmd.h\"",
+							"syntax": "Packages/C++/C.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/tom/git_code/c/src/server/src/server_main.c",
+					"settings":
+					{
+						"buffer_size": 1388,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								651,
+								651
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
 					"file": "/home/tom/git_code/c/src/client/src/command.c",
 					"settings":
 					{
@@ -217,81 +306,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1710.0,
+						"translation.y": 765.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "/home/tom/git_code/c/src/server/src/server_ main.c",
-					"settings":
-					{
-						"buffer_size": 1344,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1195,
-								1195
-							]
-						],
-						"settings":
-						{
-							"auto_name": "#include",
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 180.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/home/tom/git_code/c/src/server/include/server_common.h",
-					"settings":
-					{
-						"buffer_size": 755,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								356,
-								356
-							]
-						],
-						"settings":
-						{
-							"auto_name": "#include",
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "/home/tom/git_code/c/src/common/include/comm_def.h",
 					"settings":
 					{
-						"buffer_size": 258,
+						"buffer_size": 492,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								230,
-								230
+								424,
+								424
 							]
 						],
 						"settings":
@@ -306,7 +339,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "/home/tom/git_code/c/src/client/src/clt_main.c",
 					"settings":
 					{
@@ -333,7 +366,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "/home/tom/git_code/c/src/client/src/input.c",
 					"settings":
 					{
