@@ -1,7 +1,8 @@
 #!/bin/bash
 
-export CODE_HOME=/home/tom/git_code/c
+export CODE_HOME=/home/tom/code/git_code/c
 alias bindir="cd ${CODE_HOME}/bin"
+alias libdir="cd ${CODE_HOME}/lib"
 alias srcdir="cd ${CODE_HOME}/src"
 alias commh="cd ${CODE_HOME}/src/common"
 alias clth="cd ${CODE_HOME}/src/client"

@@ -11,7 +11,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <errno.h>
-#include <iolib.h>
+//#include <iolib.h>
 
 /* Global MACRO definitions. */
 #define MAX_LINE 			1024 	/* Maximum length of the command send to server. */
@@ -29,15 +29,15 @@ typedef struct tagcmd_line{
 }cmd_line_t;
 
 /* Function declarations. */
-extern int split(cmd_line_t * command, char cline[]);
+int split(cmd_line_t * command, char cline[]);
 
-extern int do_connect(char * ip, struct sockaddr_in * sin, int * sock_fd);
-extern int do_get(const char * src, const char * dest, int sock_fd);
-extern int do_put(const char * src, const char * dest, int sock_fd);
-extern int do_serv_cd(char * path, int sock_fd);
-extern int do_serv_ls(char * path, int sock_fd);
-extern int do_cd(char * path);
-extern int do_ls(char * path);
-extern int do_bye(int sock_fd);
+int do_connect(char * ip, struct sockaddr_in * sin, int * sock_fd);
+int do_get(const char * src, const char * dest, int sock_fd);
+int do_put(const char * src, const char * dest, int sock_fd);
+int do_serv_cd(char * path, int sock_fd);
+int do_serv_ls(char * path, int sock_fd);
+int do_cd(char * path);
+int do_ls(char * path);
+int do_bye(int sock_fd);
 
 #endif /* CLT_COMMON_H__ */

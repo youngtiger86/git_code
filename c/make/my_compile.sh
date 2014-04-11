@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 mk_opt=
 target_list="common client server"

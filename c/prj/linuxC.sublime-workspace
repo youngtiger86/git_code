@@ -15,72 +15,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/home/tom/git_code/c/src/client/include/clt_common.h",
-			"settings":
-			{
-				"buffer_size": 1423,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/tom/git_code/c/src/server/include/server_cmd.h",
-			"settings":
-			{
-				"buffer_size": 750,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/tom/git_code/c/src/server/src/server_cmd.c",
-			"settings":
-			{
-				"buffer_size": 1712,
-				"line_ending": "Unix",
-				"name": "#include \"server_cmd.h\""
-			}
-		},
-		{
-			"file": "/home/tom/git_code/c/src/server/src/server_main.c",
-			"settings":
-			{
-				"buffer_size": 1388,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/tom/git_code/c/src/client/src/command.c",
-			"settings":
-			{
-				"buffer_size": 3666,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/tom/git_code/c/src/common/include/comm_def.h",
-			"settings":
-			{
-				"buffer_size": 492,
-				"line_ending": "Unix",
-				"name": "#ifndef _COMM_DEF_H__"
-			}
-		},
-		{
-			"file": "/home/tom/git_code/c/src/client/src/clt_main.c",
-			"settings":
-			{
-				"buffer_size": 1678,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/tom/git_code/c/src/client/src/input.c",
-			"settings":
-			{
-				"buffer_size": 1192,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -93,7 +27,10 @@
 	},
 	"console":
 	{
-		"height": 125.0
+		"height": 125.0,
+		"history":
+		[
+		]
 	},
 	"distraction_free":
 	{
@@ -106,6 +43,14 @@
 	},
 	"file_history":
 	[
+		"/home/tom/git_code/c/src/client/include/clt_common.h",
+		"/home/tom/git_code/c/src/client/src/input.c",
+		"/home/tom/git_code/c/src/client/src/clt_main.c",
+		"/home/tom/git_code/c/src/common/include/comm_def.h",
+		"/home/tom/git_code/c/src/client/src/command.c",
+		"/home/tom/git_code/c/src/server/src/server_cmd.c",
+		"/home/tom/git_code/c/src/server/include/server_cmd.h",
+		"/home/tom/git_code/c/src/server/src/server_main.c",
 		"/home/tom/git_code/c/src/server/src/server_ main.c",
 		"/home/tom/git_code/c/src/server/include/server_common.h",
 		"/home/tom/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
@@ -130,7 +75,7 @@
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 25.0
 	},
 	"find_in_files":
 	{
@@ -173,231 +118,14 @@
 	"groups":
 	[
 		{
-			"selected": 3,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/home/tom/git_code/c/src/client/include/clt_common.h",
-					"settings":
-					{
-						"buffer_size": 1423,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								252,
-								252
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/home/tom/git_code/c/src/server/include/server_cmd.h",
-					"settings":
-					{
-						"buffer_size": 750,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								303,
-								303
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/home/tom/git_code/c/src/server/src/server_cmd.c",
-					"settings":
-					{
-						"buffer_size": 1712,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								472,
-								472
-							]
-						],
-						"settings":
-						{
-							"auto_name": "#include \"server_cmd.h\"",
-							"syntax": "Packages/C++/C.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/home/tom/git_code/c/src/server/src/server_main.c",
-					"settings":
-					{
-						"buffer_size": 1388,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								651,
-								651
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 135.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/home/tom/git_code/c/src/client/src/command.c",
-					"settings":
-					{
-						"buffer_size": 3666,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1915,
-								1915
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 765.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/home/tom/git_code/c/src/common/include/comm_def.h",
-					"settings":
-					{
-						"buffer_size": 492,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								424,
-								424
-							]
-						],
-						"settings":
-						{
-							"auto_name": "#ifndef _COMM_DEF_H__",
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/home/tom/git_code/c/src/client/src/clt_main.c",
-					"settings":
-					{
-						"buffer_size": 1678,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/home/tom/git_code/c/src/client/src/input.c",
-					"settings":
-					{
-						"buffer_size": 1192,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								510,
-								510
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 225.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 0.0
+		"height": 25.0
 	},
 	"input":
 	{
@@ -430,9 +158,14 @@
 	{
 		"height": 247.0
 	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "linuxC.sublime-project",
 	"replace":
 	{
-		"height": 62.0
+		"height": 46.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -451,10 +184,24 @@
 		],
 		"width": 0.0
 	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
 	"side_bar_width": 150.0,
-	"status_bar_visible": true
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
 }

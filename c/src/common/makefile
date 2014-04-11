@@ -1,16 +1,14 @@
 include ../../make/common.in
 
-PHONY: all
-CC=gcc
 INC+= -Iinclude
+CFLAGS+=-fPIC 
+LINKAGE+=-shared
 SRC=$(wildcard src/*.c)
 OBJ=$(patsubst src/%.c,obj/%.o,$(SRC))
-TARGET=$(BIN_PATH)/client
+TARGET=$(LIB_PATH)/common.so
 
-all: client
-
-client: $(OBJ)
-	@echo "${LINK_PROMPT} client..."
+$(TARGET): $(OBJ)
+	@echo "${LINK_PROMPT} common.so..."
 	@$(CC) $(LINKAGE) -o $(TARGET) $^
 
 OBJ: %.o
@@ -21,4 +19,4 @@ obj/%.o:src/%.c
 	@$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
 clean:
-	@rm -rf $(all) $(TARGET) obj
+	@rm -rf $(TARGET) obj

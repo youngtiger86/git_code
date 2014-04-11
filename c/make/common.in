@@ -1,5 +1,8 @@
-BIN_PATH=/home/tom/git_code/c/bin
+BIN_PATH=/home/tom/code/git_code/c/bin
+LIB_PATH=/home/tom/code/git_code/c/lib
 COMP_PROMPT="Compiling file"
 LINK_PROMPT="Linking"
+CC=gcc
 INC=-I$(CODE_HOME)/src/common/include
 CFLAGS=-g
+LINKAGE=
