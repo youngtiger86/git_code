@@ -5,10 +5,10 @@ CFLAGS+=-fPIC
 LINKAGE+=-shared
 SRC=$(wildcard src/*.c)
 OBJ=$(patsubst src/%.c,obj/%.o,$(SRC))
-TARGET=$(LIB_PATH)/common.so
+TARGET=$(LIB_PATH)/libcommon.so
 
 $(TARGET): $(OBJ)
-	@echo "${LINK_PROMPT} common.so..."
+	@echo "${LINK_PROMPT} libcommon.so..."
 	@$(CC) $(LINKAGE) -o $(TARGET) $^
 
 OBJ: %.o

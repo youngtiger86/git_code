@@ -1,4 +1,5 @@
 #include "comm_def.h"
+#include "cm_io.h"
 #include "clt_common.h"
 
 /**********************************************************************************************************************
@@ -87,6 +88,26 @@ int do_serv_cd(char * path, int sock_fd)
 
 int do_serv_ls(char * path, int sock_fd)
 {
+	cmd_info_t * cmd_info;
+	char buf[MAX_MSG_LEN];
+	int len;
+
+	//sprintf(buf, "LS %s", path);
+	cmd_info = (cmd_info_t *)buf;
+	cmd_info->type = CMD_TYPE_LS;
+	cmd_info->arg_len = strlen(path);
+	if (cmd_info->arg_len > MAX_MSG_LEN - sizeof(cmd_info_t))
+	{
+		printf("Path is too long: %s.\n", path);
+		return -1;
+	}
+
+	if (-1 == cm_write(sock_fd, buf, sizeof(cmd_info_t) + cmd_info->arg_len))
+	{
+		printf("Fail to send command 'ls' to server.\n");
+		return -1;	
+	}
+
 	return 0;
 }
 

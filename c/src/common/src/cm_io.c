@@ -4,7 +4,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-ssize_t my_read(int fd, void * buffer, size_t length)
+ssize_t cm_read(int fd, void * buffer, size_t length)
 {
 	ssize_t done = length;
 
@@ -32,7 +32,7 @@ ssize_t my_read(int fd, void * buffer, size_t length)
 	return done;
 }
 
-ssize_t my_write(int fd, void * buffer, size_t length)
+ssize_t cm_write(int fd, void * buffer, size_t length)
 {
 	ssize_t done = length;
 

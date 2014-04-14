@@ -27,7 +27,7 @@ typedef enum tagcmd_type
 typedef struct tagcmd_info
 {
     cmd_type_e type;
-    //unsigned int add_info_len;
+    unsigned int arg_len; 
 }cmd_info_t;
 
 #if 0

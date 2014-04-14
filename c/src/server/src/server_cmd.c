@@ -57,6 +57,7 @@ int server_service_proc(int sockfd)
     cmd_info_t * cmd_info;
     char cmd_buff[MAX_CMD_LEN];
     char * cmd_add_info;
+    char arg[MAX_CMD_LEN];
     int disconn = FALSE;
     
 /*
@@ -75,7 +76,11 @@ int server_service_proc(int sockfd)
         }
 
         cmd_info  = (cmd_info_t *)cmd_buff;
-        cmd_add_info = (char *)cmd_info + sizeof(cmd_info_t);
+		strncpy(cmd_add_info, (char *)cmd_info + sizeof(cmd_info_t), cmd_info->arg_len);
+        cmd_add_info[cmd_info->arg_len] = '\0';
+//        cmd_add_info = (char *)cmd_info + sizeof(cmd_info_t);
+//		snprintf(arg, cmd_addr_info, cmd_info->arg_len);
+//		arg[cmd
         switch (cmd_info->type)
         {
             case CMD_TYPE_PUT:
@@ -118,5 +123,7 @@ int server_do_cd(int cfd, char * path)
 
 int server_do_ls(int cfd, char * path)
 {
-    return 0;
+	printf("Get the command: server ls. Path: %s\n", path);
+	return 0;
 }
+
