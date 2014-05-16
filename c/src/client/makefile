@@ -12,7 +12,7 @@ all: client
 
 client: $(OBJ)
 	@echo "${LINK_PROMPT} client..."
-	$(CC) -o $(TARGET) $^ $(LINKAGE)
+	@$(CC) -o $(TARGET) $^ $(LINKAGE)
 
 OBJ: %.o
 

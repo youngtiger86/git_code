@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export CODE_HOME=/home/tom/code/git_code/c
+export LD_LIBRARY_PATH=${CODE_HOME}/lib:${LD_LIBRARY_PATH}
 alias bindir="cd ${CODE_HOME}/bin"
 alias libdir="cd ${CODE_HOME}/lib"
 alias srcdir="cd ${CODE_HOME}/src"

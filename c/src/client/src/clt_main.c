@@ -40,6 +40,13 @@ int main(void)
 				exit(1);
 			}
 		}
+		else if (0 == strcasecmp(command.name, "!pwd"))
+		{
+			if (-1 == do_serv_pwd(sock_fd))
+			{
+				exit(1);
+			}
+		}
 		else if (0 == strcasecmp(command.name, "!cd"))
 		{
 			if (-1 == do_serv_cd(command.argv[1], sock_fd))

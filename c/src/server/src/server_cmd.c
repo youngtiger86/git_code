@@ -56,8 +56,8 @@ int server_service_proc(int sockfd)
     int ret;
     cmd_info_t * cmd_info;
     char cmd_buff[MAX_CMD_LEN];
-    char * cmd_add_info;
-    char arg[MAX_CMD_LEN];
+    char cmd_add_info[MAX_CMD_LEN];
+    //char arg[MAX_CMD_LEN];
     int disconn = FALSE;
     
 /*
@@ -76,7 +76,8 @@ int server_service_proc(int sockfd)
         }
 
         cmd_info  = (cmd_info_t *)cmd_buff;
-		strncpy(cmd_add_info, (char *)cmd_info + sizeof(cmd_info_t), cmd_info->arg_len);
+	//cmd_add_info = cmd_buff + sizeof(cmd_info_t);
+	strncpy(cmd_add_info, (char *)cmd_info + sizeof(cmd_info_t), cmd_info->arg_len);
         cmd_add_info[cmd_info->arg_len] = '\0';
 //        cmd_add_info = (char *)cmd_info + sizeof(cmd_info_t);
 //		snprintf(arg, cmd_addr_info, cmd_info->arg_len);
@@ -87,7 +88,7 @@ int server_service_proc(int sockfd)
                 ret = server_do_put(sockfd, cmd_add_info);
                 break;
             case CMD_TYPE_GET:
-                ret = server_do_get(sockfd, cmd_add_info);
+                ret = server_process_get_cmd(sockfd, cmd_add_info);
                 break;
             case CMD_TYPE_CD:
                 ret = server_do_cd(sockfd, cmd_add_info);
@@ -111,8 +112,41 @@ int server_do_put(int cfd, char * file)
     return 0;
 }
 
-int server_do_get(int cfd, char * file)
+int server_process_get_cmd(int cfd, char * file)
 {
+	prepare_ack_t * ack;
+	char buf[MAX_MSG_LEN] = {0};
+
+	if (-1 == cm_read(cfd, buf, MAX_MSG_LEN))
+	{
+		printf("Fail to cm_write.\n");
+		return -1;
+	}
+
+	ack = (prepare_ack_t *)buf;
+	ack->code = CM_SUCCESS;
+	ack->len = 2;
+
+	if (-1 == cm_write(cfd, buf, sizeof(prepare_ack_t)))
+	{
+		printf("Fail to cm_write.\n");
+		return -1;
+	}
+	
+	if (-1 == cm_read(cfd, buf, sizeof(cmd_info_t)))
+	{
+		printf("Fail to cm_read to get confrim.\n");
+		return -1;
+	}
+
+	memset(buf, 0, MAX_MSG_LEN);
+	strncpy(buf, "ab", 2);
+	if (-1 == cm_write(cfd, buf, 2))
+	{
+		printf("Fail to cm_write file to client.\n");
+		return -1;
+	}
+
     return 0;
 }
 
@@ -123,7 +157,47 @@ int server_do_cd(int cfd, char * path)
 
 int server_do_ls(int cfd, char * path)
 {
-	printf("Get the command: server ls. Path: %s\n", path);
+	FILE *  fd;
+	int read_len;
+	char cmd[MAX_CMD_LEN];
+	char result_buf[MAX_MSG_LEN];
+	char read_buf[MAX_FILE_LINE_LEN];
+    char * tmp_result_file = "/tmp/server_ls_result.txt";
+
+	printf("Get the command: server ls. Path:%s\n", path);
+
+	snprintf(cmd, MAX_CMD_LEN, "ls -lrt %s > %s", path, tmp_result_file);
+	system(cmd);
+
+	fd = fopen(tmp_result_file, "r");
+	if (NULL == fd)
+	{
+		perror("Fail to open file\n");
+		return -1;
+	}
+
+	read_len = 0;
+	while (NULL != fgets(read_buf, MAX_FILE_LINE_LEN, fd))
+	{
+		if (read_len + strlen(read_buf) >= MAX_MSG_LEN)
+		{
+			/* Here it should send by more than once. But only break now. */
+			break;
+		}
+
+		strncpy(result_buf + read_len, read_buf, strlen(read_buf));
+		read_len += strlen(read_buf);
+	}
+
+	if (read_len > 0)
+	{
+		if (-1 == cm_write(cfd, result_buf, read_len))
+		{
+			perror("Fail to my_send.\n");
+			return -1;
+		}
+	}
+	
 	return 0;
 }
 

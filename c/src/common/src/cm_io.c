@@ -8,10 +8,11 @@ ssize_t cm_read(int fd, void * buffer, size_t length)
 {
 	ssize_t done = length;
 
-	while (done < 0)
+	while (done > 0)
 	{
 		done = read(fd, buffer, length);
-		if (done != length)
+		//if (done != length)
+		if (done > length)
 		{
 			if (EINTR == errno)
 			{

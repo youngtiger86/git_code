@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "comm_def.h"
 #include "cm_io.h"
 #include "clt_common.h"
@@ -72,8 +76,82 @@ History:
 **********************************************************************************************************************/
 int do_get(const char * src, const char * dest, int sock_fd)
 {
+	int res = -1;
+	int dest_fd;
+	struct stat file_stat;
+	cmd_info_t * cmd_info;
+	prepare_ack_t * prepare_ack;
+	char buf[MAX_MSG_LEN] = {0};
 
-	return 0;
+	cmd_info = (cmd_info_t *)buf;
+	cmd_info->type = CMD_TYPE_GET;
+	cmd_info->arg_len = strlen(src);
+	
+	if (strlen(src) > MAX_MSG_LEN - sizeof(cmd_info_t) -1)
+	{
+		printf("File path is too long. File: %s. Function: %s. Line no: %u.\n", __FILE__, __FUNCTION__, __LINE__);
+		return -1;
+	}
+
+	strncpy(buf + sizeof(cmd_info_t), src, MAX_MSG_LEN - sizeof(cmd_info_t));
+
+	/* Create the dest file. */
+	if (NULL == dest)
+	{
+		printf("Dest file path is not given.\n");
+		return -1;
+	}
+
+	dest_fd = open(dest, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (-1 == dest_fd)
+	{
+		printf("Fail to open dest file: %s.\n", dest);
+		return -1;
+	}
+
+	if (-1 == fstat(dest_fd, &file_stat))
+	{
+		perror("Fail to stat dest-file.\n");
+		goto end1;
+	}
+
+	/* If the file exists and it's not a regular file, we can not cover it. */
+	if (!S_ISREG(file_stat.st_mode))
+	{
+		printf("Dest file should be a regular file.\n");
+		goto end1;
+	}	
+
+	//sprintf(buf, "GET %s", src);
+
+	if ( -1 == cm_write(sock_fd, buf, sizeof(cmd_info_t) + cmd_info->arg_len))
+	{
+		printf("Fail to send command 'get' to server.\n");
+		return -1;
+	} 
+
+	if (-1 == cm_read(sock_fd, buf, MAX_MSG_LEN))
+	{
+		printf("Fail to get prepare ack from server.\n");
+		return -1;	
+	}
+
+	memset(buf, 0, MAX_MSG_LEN);
+	if (-1 == cm_read(sock_fd, buf, 2))
+	{
+		goto end1;
+	}
+
+	if (-1 == cm_write(dest_fd, buf, 2))
+	{
+		goto end1;
+	}
+
+	res = CM_SUCCESS;
+end1:
+	close(dest_fd);
+
+	return res;
 }
 
 int do_put(const char * src, const char * dest, int sock_fd)
@@ -81,15 +159,67 @@ int do_put(const char * src, const char * dest, int sock_fd)
 	return 0;
 }
 
+int do_serv_pwd(int sock_fd)
+{
+    cmd_info_t * cmd_info;
+    char buf[MAX_MSG_LEN] = {0};
+
+    cmd_info = (cmd_info_t *)buf;
+    cmd_info->type = CMD_TYPE_SERV_PWD;
+    cmd_info->arg_len = 0;
+
+    if (-1 == cm_write(sock_fd, buf, sizeof(cmd_info_t)))
+    {
+        perror("Fail to send command 'pwd' to server.\n");
+        return -1;
+    }
+
+    memset(buf, 0, MAX_MSG_LEN);
+
+    if (-1 == cm_read(sock_fd, buf, MAX_MSG_LEN))
+    {
+        perror("Fail to read respond for 'pwd' from server.\n");
+        return -1;
+    }
+
+    printf("%s\n", buf);
+    return 0;
+}
+
 int do_serv_cd(char * path, int sock_fd)
 {
+    cmd_info_t * cmd_info; 
+    char buf[MAX_MSG_LEN] = {0};
+
+	cmd_info = (cmd_info_t *)buf;
+    cmd_info->type = CMD_TYPE_CD;
+    cmd_info->arg_len = strlen(path);
+    if (cmd_info->arg_len > MAX_MSG_LEN - sizeof(cmd_info_t))
+	{
+		printf("Path is too long: %s.\n", path);
+		return -1;
+	}
+
+	strncpy(buf + sizeof(cmd_info_t), path, cmd_info->arg_len);
+    if (-1 == cm_write(sock_fd, buf, sizeof(cmd_info_t) + cmd_info->arg_len))
+	{
+		printf("Fail to send command 'cd' to server.\n");
+		return -1;
+	}
+
+	if (-1 == cm_read(sock_fd, buf, MAX_MSG_LEN))
+	{
+ 		printf("Fail to cm_read.\n");
+		return -1;
+	}
+
 	return 0;
 }
 
 int do_serv_ls(char * path, int sock_fd)
 {
 	cmd_info_t * cmd_info;
-	char buf[MAX_MSG_LEN];
+	char buf[MAX_MSG_LEN] = {0};
 	int len;
 
 	//sprintf(buf, "LS %s", path);
@@ -102,11 +232,21 @@ int do_serv_ls(char * path, int sock_fd)
 		return -1;
 	}
 
+	strncpy(buf + sizeof(cmd_info_t), path, cmd_info->arg_len);
+	//printf("Server ls path: %s\n", );			
 	if (-1 == cm_write(sock_fd, buf, sizeof(cmd_info_t) + cmd_info->arg_len))
 	{
 		printf("Fail to send command 'ls' to server.\n");
 		return -1;	
 	}
+
+	if (-1 == cm_read(sock_fd, buf, MAX_MSG_LEN))
+	{
+		perror("Fail to cm_read.\n");
+		return -1;
+	}
+
+	printf("%s\n", buf);
 
 	return 0;
 }
@@ -124,7 +264,7 @@ History:
 **********************************************************************************************************************/
 int do_cd(char * path)
 {
-    char cwd[MAX_PATH_LEN];
+    char cwd[MAX_PATH_LEN] = {0};
 
     if (NULL == path)
     {
@@ -147,8 +287,8 @@ int do_cd(char * path)
 int do_ls(char * path)
 {
     FILE * fp;
-    char cmd[MAX_CMD_LEN];
-    char buf[MAX_FILE_LINE_LEN];
+    char cmd[MAX_CMD_LEN] = {0};
+    char buf[MAX_FILE_LINE_LEN] = {0};
 
     snprintf(cmd, MAX_CMD_LEN, "ls -lrt %s > /tmp/ls_tmp.txt", path);
     system(cmd);
@@ -176,4 +316,4 @@ int do_bye(int sock_fd)
 {
 	return 0;
 }
-		
+

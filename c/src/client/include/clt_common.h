@@ -34,6 +34,7 @@ int split(cmd_line_t * command, char cline[]);
 int do_connect(char * ip, struct sockaddr_in * sin, int * sock_fd);
 int do_get(const char * src, const char * dest, int sock_fd);
 int do_put(const char * src, const char * dest, int sock_fd);
+int do_serv_pwd(int sock_fd);
 int do_serv_cd(char * path, int sock_fd);
 int do_serv_ls(char * path, int sock_fd);
 int do_cd(char * path);
