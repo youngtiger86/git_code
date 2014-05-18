@@ -53,6 +53,31 @@ static int server_get_cmd_info(int sockfd, char * cmd_buff, unsigned int buff_le
 
 int server_service_proc(int sockfd)
 {
+	int ret;
+	int len;
+	char buf[MAX_MSG_LEN];
+
+	len = cm_read(sockfd, buf, MAX_MSG_LEN);
+	if (0 == len)
+	{
+		perror("fail to read");
+		return -1;
+	}
+
+	if (strstr(buf, "GET") == buf)
+	{
+		ret = server_process_get_cmd(sockfd, buf[4]);
+		if (-1 == ret)
+		{
+			perror("fail to process get cmd");
+			return -1;
+		}
+	}
+}
+
+#if 0
+int server_service_proc(int sockfd)
+{
     int ret;
     cmd_info_t * cmd_info;
     char cmd_buff[MAX_CMD_LEN];
@@ -106,12 +131,86 @@ int server_service_proc(int sockfd)
 
     return ret;
 }
+#endif
 
 int server_do_put(int cfd, char * file)
 {
     return 0;
 }
 
+int server_process_get_cmd(int cfd, char * file)
+{
+	struct stat statbuf;
+	int n, fd;
+	char buf[MAX_MSG_LEN];
+	int res = -1;
+
+	if (-1 == (fd = open(file, O_RDONLY)))
+	{
+		cm_write(cfd, "ERR open server file.\n", strlen("Err open server file.\n"));
+		return res;
+	}
+
+	if (-1 == fstat(fd, &statbuf))
+	{
+		cm_write(cfd, "ERR stat server file\n", strlen("ERR stat server file\n"));
+		goto end;
+	}
+
+	/* Check whether it's a ragular file. If not, report error. */
+	if (!S_ISREG(statbuf.st_mode))
+	{
+		if (-1 == cm_write(cfd, "ERR server path should be a regular file.\n", strlen("ERR server path should be a regular file.\n")))
+		{
+			goto end;
+		}
+
+		res = 0;
+		goto end;
+	}
+
+	sprintf(buf, "OK %d", statbuf.st_size);
+
+	if (-1 == cm_write(cfd, buf, strlen(buf)))
+	{
+		goto end;
+	}
+
+	if (-1 == cm_read(cfd, buf, MAX_MSG_LEN))
+	{
+		goto end;
+	}
+
+	while (1)
+	{
+		n = read(fd, buf, MAX_MSG_LEN);
+		if (n > 0)
+		{
+			if (-1 == cm_write(cfd, buf, n))
+			{
+				goto end;
+			}
+		}
+		else if (0 == n)
+		{
+			printf("OK\n");
+			break;
+		}
+		else
+		{
+			perror("Fail to read");
+			goto end;
+		}
+	}
+
+	res = 0;
+
+end:
+	close(fd);
+	return res;
+}
+
+#if 0
 int server_process_get_cmd(int cfd, char * file)
 {
 	prepare_ack_t * ack;
@@ -149,6 +248,7 @@ int server_process_get_cmd(int cfd, char * file)
 
     return 0;
 }
+#endif
 
 int server_do_cd(int cfd, char * path)
 {

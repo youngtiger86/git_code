@@ -61,6 +61,115 @@ int do_connect(char * ip, struct sockaddr_in * sin, int * sock_fd)
 	return 0;
 }
 
+int do_get(const char * src, const char * dest, int sock_fd)
+{
+	char * dest_file;
+	char * p;
+	struct stat statbuf;
+	int n;
+	int fd;
+	char buf[MAX_MSG_LEN];
+	int len;
+	int res = -1;
+
+	if ((NULL == src) || (NULL == dest))
+	{
+		printf("Wrong command.\n");
+		return -1;
+	}
+
+	/* Concat the dest file name with path. */
+	dest_file = (char *)malloc(strlen(dest) + strlen(src));
+	if (NULL == dest_file)
+	{
+		perror("Fail to malloc");
+		return -1;
+	}
+
+	strcpy(dest_file, dest);
+	if ('/' != dest_file[strlen(dest_file) - 1])
+	{
+		strcat(dest_file, "/");
+	}
+
+	p = rindex(src, '/');
+	strcat(dest_file, p + 1);
+
+	if (-1 == (fd = open(dest_file, O_WRONLY | O_CREAT | O_TRUNC, 0644)))
+	{
+		perror("fail to open dest file.");
+		goto end2;
+	}	
+
+	if (-1 == fstat(fd, &statbuf))
+	{
+		perror("fail to stat dest file");
+		goto end1;
+	}
+
+	if (!S_ISREG(statbuf.st_mode))
+	{
+		printf("dest file should be a regular file");
+		goto end1;
+	}
+
+	sprintf(buf, "Get %s", src);
+
+	if (-1 == cm_write(sock_fd, buf, strlen(buf) + 1))
+	{
+		goto end1;
+	}
+
+	n = cm_read(sock_fd, buf, MAX_LINE);
+	if (n <= 0)
+	{
+		goto end1;
+	}
+
+	if ('E' == buf[0])
+	{
+		write(STDOUT_FILENO, buf, n);
+		res = 0;
+		goto end1;
+	}
+
+	len = atoi(&buf[3]);
+
+	if (-1 == cm_write(sock_fd, "RDY", 3))
+	{
+		goto end1;
+	}
+
+	while (1)
+	{
+		n = cm_read(sock_fd, buf, MAX_MSG_LEN);
+		if (n > 0)
+		{
+			write(fd, buf, n);
+			len -=n;
+		}
+		else if (0 == len)
+		{
+			printf("OK\n");
+			break;
+		}
+		else
+		{
+			goto end1;
+		}
+	}
+
+	res = 0;
+
+end1:
+	free(dest_file);
+end2:
+	close(fd);
+
+	return res;
+}
+
+#if 0
 /**********************************************************************************************************************
 Description:    Get a file from server.
 Input:          src -- The file to be gotten.
@@ -153,6 +262,7 @@ end1:
 
 	return res;
 }
+#endif
 
 int do_put(const char * src, const char * dest, int sock_fd)
 {
