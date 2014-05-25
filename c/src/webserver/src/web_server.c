@@ -1,4 +1,5 @@
 #include "common.h"
+#include "cm_log.h"
 
 /**********************************************************************************************************************
  Description:	Parse the configuration file to get the port and root path of the webserver. 
@@ -112,6 +113,9 @@ int init(struct sockaddr_in * sin, int * lfd, char * path)
 int get_path(int cfd, char * path)
 {
 	char buf[MAX_LINE];
+	char * user_info_begin;
+	char * user_info_end;
+	char user_info[CM_MAX_LOG_MSG_LEN];
 
 	if (-1 == cm_read(cfd, buf, MAX_LINE))
 	{
@@ -132,6 +136,16 @@ int get_path(int cfd, char * path)
 	{
 		strtok(&buf[4], " ");
 		strcat(path, &buf[4]);
+	}
+
+	user_info_begin = strstr(buf, "User-Agent");
+	user_info_end = strstr(buf, "Accept");
+	if ((NULL != user_info_begin) && (NULL != user_info_end))
+	{
+		/* 需要检查长度 */
+		strncpy(user_info, user_info_begin, 100); 
+		user_info[100] = '\0';
+		CM_AUDIT_LOG("webserver", INFO, user_info);
 	}
 
 	return 0;

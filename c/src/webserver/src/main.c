@@ -21,8 +21,7 @@ int main(void)
 		exit(1);
 	}
 
-	//snprintf(log_msg, CM_MAX_LOG_MSG_LEN, "Log initialization succeed. %s:%d", __FILE__, __LINE__);
-	CM_RUN_LOG("webserver", ERR, "Log initialization succeed.");
+	CM_RUN_LOG("webserver", INFO, "Log initialization succeed.");
 
 	if (-1 == init(&sin, &lfd, path))
 	{
@@ -30,8 +29,7 @@ int main(void)
 		exit(1);
 	}
 
-//	snprintf(log_msg, CM_MAX_LOG_MSG_LEN, "Webserver service initialization succeed. %s:%d", __FILE__, __LINE__);
-	CM_RUN_LOG("webserver", ERR, "Webserver service initialization succeed."); 
+	CM_RUN_LOG("webserver", INFO, "Webserver service initialization succeed."); 
 
 	while (1)
 	{

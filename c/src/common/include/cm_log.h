@@ -4,12 +4,18 @@
 #define CM_MAX_LOG_MSG_LEN	512
 
 #define CM_RUN_LOG(module_name, level, msg)	\
-	log_write(module_name, level, msg, __FILE__, __LINE__)
+	log_write(LOG_TYPE_RUN, module_name, level, msg, __FILE__, __LINE__)
+
+#define CM_DEBUG_LOG(module_name, level, msg)	\
+	log_write(LOG_TYPE_DEBUG, module_name, level, msg, __FILE__, __LINE__)
+
+#define CM_AUDIT_LOG(module_name, level, msg)	\
+	log_write(LOG_TYPE_AUDIT, module_name, level, msg, __FILE__, __LINE__)
 
 typedef enum taglog_type
 {
 	LOG_TYPE_RUN = 0,
-	LOG_Type_DEBUG,
+	LOG_TYPE_DEBUG,
 	LOG_TYPE_AUDIT
 }log_type_e;
 
@@ -54,7 +60,7 @@ int log_init_by_type(char * app_name, char * log_root_path, log_type_e log_type)
  1. Author: yangshangde
  Modification: 2014-- Create this function.
  **********************************************************************************************************************/
-int log_write(char * module_name, log_level_e level, char * msg, ...);
+int log_write(log_type_e log_type, char * module_name, log_level_e level, char * msg, ...);
 
 /**********************************************************************************************************************
  Description: 

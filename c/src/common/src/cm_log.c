@@ -12,7 +12,8 @@
 #define CM_DEBUG_LOG_IDX 	1
 #define CM_AUDIT_LOG_IDX 	2	
 
-int g_log_file_fds[3] = {0};
+static char * g_log_level_name[3] = {"Error", "Warn", "Info"};
+static int g_log_file_fds[3] = {0};
 
 int log_init(char * app_name, char * log_root_path)
 {
@@ -57,7 +58,7 @@ int log_init(char * app_name, char * log_root_path)
 		strcat(full_path, "/d");
 		strcat(full_path, app_name);
 		strcat(full_path, ".log");
-		fd = open(full_path, O_WRONLY | O_CREAT, 700);
+		fd = open(full_path, O_WRONLY | O_CREAT, 777);
 		if (-1 == fd)
 		{
 			printf("Failed to create log file: %s\n", full_path);
@@ -79,7 +80,7 @@ int log_init(char * app_name, char * log_root_path)
 		strcat(full_path, "/a");
 		strcat(full_path, app_name);
 		strcat(full_path, ".log");
-		fd = open(full_path, O_WRONLY | O_CREAT, 700);
+		fd = open(full_path, O_WRONLY | O_CREAT, 777);
 		if (-1 == fd)
 		{
 			printf("Failed to create log file: %s\n", full_path);
@@ -98,7 +99,7 @@ int log_init_by_type(char * app_name, char * log_root_path, log_type_e log_type)
 }
 
 
-int log_write(char * module_name, log_level_e level, char * msg, ...)
+int log_write(log_type_e log_type, char * module_name, log_level_e level, char * msg, ...)
 {
 	char log_msg[CM_MAX_LOG_MSG_LEN];
 	time_t curr_time;
@@ -106,6 +107,7 @@ int log_write(char * module_name, log_level_e level, char * msg, ...)
 	va_list arg_list;
 	char * func_name;
 	int line_no;
+	int fd;
 
 	if (-1 == (curr_time = time(NULL)))
 	{
@@ -120,11 +122,31 @@ int log_write(char * module_name, log_level_e level, char * msg, ...)
 	loc_time = localtime(&curr_time);
 	printf("%s", asctime(loc_time));
 	strftime(log_msg, CM_MAX_LOG_MSG_LEN, "[ %Y/%m/%d %H:%M:%S ]", loc_time);
-	snprintf(log_msg + strlen(log_msg), CM_MAX_LOG_MSG_LEN - strlen(log_msg), " %d %s %s %s:%d\n", level, module_name, msg, func_name, line_no);
+	snprintf(log_msg + strlen(log_msg), CM_MAX_LOG_MSG_LEN - strlen(log_msg), " %s %s %s %s:%d\n", g_log_level_name[level], module_name, msg, func_name, line_no);
 	va_end(arg_list);
-	if (ERR == level)
+
+	switch (log_type)
 	{
-		if (-1 == write(g_log_file_fds[CM_RUN_LOG_IDX], log_msg, strlen(log_msg)))
+		case LOG_TYPE_RUN:
+			fd = g_log_file_fds[CM_RUN_LOG_IDX];
+			break;
+		case LOG_TYPE_DEBUG:
+			fd = g_log_file_fds[CM_DEBUG_LOG_IDX];
+			break;
+		default:
+			fd = g_log_file_fds[CM_AUDIT_LOG_IDX];
+			break;
+	}
+
+	if (-1 == write(fd, log_msg, strlen(log_msg)))
+	{
+		printf("write log file failed.\n");
+		return -1;
+	}
+
+	if (LOG_TYPE_RUN == log_type)
+	{
+		if (-1 == write(g_log_file_fds[CM_DEBUG_LOG_IDX], log_msg, strlen(log_msg)))
 		{
 			printf("write log file failed.\n");
 			return -1;
