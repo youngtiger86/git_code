@@ -1,4 +1,5 @@
 #include "common.h"
+#include "cm_log.h"
 
 int main(void)
 {
@@ -7,20 +8,30 @@ int main(void)
 	int lfd, cfd, fd;
 	pid_t pid;
 	int sock_opt = 1;
-	int port;
 	char path[MAX_LINE];
 	struct stat statbuf;
+	char log_msg[CM_MAX_LOG_MSG_LEN];
 
 	signal(SIGCHLD, SIG_IGN);
 	signal(SIGPIPE, SIG_IGN);
 
-	printf("initializing ...\n");
+	if (-1 == log_init("webserver", get_current_dir_name()))
+	{
+		DEBUG_PRINT("Error during log init\n");
+		exit(1);
+	}
 
-	if (-1 == init(&sin, &lfd, &port, path))
+	//snprintf(log_msg, CM_MAX_LOG_MSG_LEN, "Log initialization succeed. %s:%d", __FILE__, __LINE__);
+	CM_RUN_LOG("webserver", ERR, "Log initialization succeed.");
+
+	if (-1 == init(&sin, &lfd, path))
 	{
 		DEBUG_PRINT("error during initialization\n");
 		exit(1);
 	}
+
+//	snprintf(log_msg, CM_MAX_LOG_MSG_LEN, "Webserver service initialization succeed. %s:%d", __FILE__, __LINE__);
+	CM_RUN_LOG("webserver", ERR, "Webserver service initialization succeed."); 
 
 	while (1)
 	{
@@ -108,9 +119,8 @@ int main(void)
 		{
 			close(cfd);
 		}
-
-		return 0;
 	}
 	
+	return 0;
 }
 

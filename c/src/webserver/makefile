@@ -7,6 +7,7 @@ LINKAGE+=-L$(LIB_PATH) -lcommon
 SRC=$(wildcard src/*.c)
 OBJ=$(patsubst src/%.c,obj/%.o,$(SRC))
 TARGET=$(BIN_PATH)/webserver
+#CFLAGS=-E
 
 all:webserver 
 

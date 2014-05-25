@@ -1,5 +1,17 @@
 #include "common.h"
 
+/**********************************************************************************************************************
+ Description:	Parse the configuration file to get the port and root path of the webserver. 
+ Input: 		None.
+ Output:		port -- The port of the webserver service.
+				path -- Root path of the webserver service. 
+ Return value:  0 -- Parse configuration file successfully.
+ 				-1 -- Error happended during parsing of the configuration file.
+ Note: 
+ History: 
+ 1. Author: yangshangde
+ Modification: 2014-05-20 Create this function.
+ **********************************************************************************************************************/
 static int configuration(int * port, char * path)
 {
 	int i;
@@ -62,16 +74,17 @@ static int configuration(int * port, char * path)
 	return 0;
 }
 
-int init(struct sockaddr_in * sin, int * lfd, int * port, char * path)
+int init(struct sockaddr_in * sin, int * lfd, char * path)
 {
 	int tfd;
+	int port;
 
-	configuration(port, path);
+	configuration(&port, path);
 
 	bzero(sin, sizeof(struct sockaddr_in));
 	sin->sin_family = AF_INET;
 	sin->sin_addr.s_addr = INADDR_ANY;
-	sin->sin_port = htons(*port);
+	sin->sin_port = htons(port);
 
 	if (-1 == (tfd = socket(AF_INET, SOCK_STREAM, 0)))
 	{
@@ -129,7 +142,7 @@ int error_page(int sock_fd)
 	char err_str[1024];
 
 #ifdef DEBUG
-	sprintf(err_str, "HTTP/1.1 404 %S\r\n", strerror(errno.h));
+	sprintf(err_str, "HTTP/1.1 404 %s\r\n", strerror(404));
 #else
 	sprintf(err_str, "HTTP/1.1 404 Not Exist\r\n");
 #endif
@@ -212,4 +225,5 @@ int write_page(int cfd, char * path, int fd)
 
 	return 0;
 }
+
 
