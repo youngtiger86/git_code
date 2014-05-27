@@ -1,0 +1,16 @@
+/c/bin/awebserver/awebserver.log
+/c/bin/client
+/c/bin/dwebserver/dwebserver.log
+/c/bin/rwebserver/rwebserver.log
+/c/bin/server
+/c/bin/webserver
+/c/lib/libcommon.so
+/c/src/client/obj/clt_cmd.o
+/c/src/client/obj/clt_input.o
+/c/src/client/obj/clt_main.o
+/c/src/common/obj/cm_io.o
+/c/src/common/obj/cm_log.o
+/c/src/server/obj/server_cmd.o
+/c/src/server/obj/server_main.o
+/c/src/webserver/obj/main.o
+/c/src/webserver/obj/web_server.o
