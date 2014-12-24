@@ -120,9 +120,8 @@ int log_write(log_type_e log_type, char * module_name, log_level_e level, char *
 	line_no = (int)va_arg(arg_list, int);
 
 	loc_time = localtime(&curr_time);
-	printf("%s", asctime(loc_time));
 	strftime(log_msg, CM_MAX_LOG_MSG_LEN, "[ %Y/%m/%d %H:%M:%S ]", loc_time);
-	snprintf(log_msg + strlen(log_msg), CM_MAX_LOG_MSG_LEN - strlen(log_msg), " %s %s %s %s:%d\n", g_log_level_name[level], module_name, msg, func_name, line_no);
+	snprintf(log_msg + strlen(log_msg), CM_MAX_LOG_MSG_LEN - strlen(log_msg), " [%s] [%s] %s %s:%d\n", g_log_level_name[level], module_name, msg, func_name, line_no);
 	va_end(arg_list);
 
 	switch (log_type)
